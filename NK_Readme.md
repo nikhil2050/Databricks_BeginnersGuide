@@ -36,7 +36,7 @@ Factory pipelines will then go through the new and emerging Data Lakehouse Archi
 <table>
 	<tbody>
 		<tr>
-			<td rowspan="2"></td>
+			<td rowspan="2">HIGHER LAYER</td>
 			<td rowspan="2">Spark SQL</td>
 			<td>Spark Streaming</td>
 			<td>Spark ML</td>
@@ -70,11 +70,13 @@ Factory pipelines will then go through the new and emerging Data Lakehouse Archi
 			<td colspan="5"></td>
 		</tr>
 		<tr>
-			<td colspan="5">Spark standalone, YARN, Apache Mesos, K8s</td>
+			<td>LOWER LAYER</td>
+			<td colspan="4">Spark standalone, YARN, Apache Mesos, K8s</td>
 		</tr>
 	</tbody>
 </table>
-### SPARK CORE: 
+
+### SPARK CORE:
 - It takes care of Scheduling tasks, Memory management, Fault recovery, Communication with storage systems, etc.
 - It's also home to Spark's main programming Abstraction API called RDD or Resilient Distributed Datasets (RDD's).
 - RDDs are a collection of items distributed across various compute nodes, in the cluster that can be processed in parallel.
