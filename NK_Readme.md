@@ -33,6 +33,48 @@ Factory pipelines will then go through the new and emerging Data Lakehouse Archi
    - It comes packaged with high level libraries, including support for SQL queries, streaming data, ML and Graph processing.
    - These standard libraries increase developer productivity and can be seamlessly combined to create complex workflows.
 
+<table>
+	<tbody>
+		<tr>
+			<td rowspan="2"></td>
+			<td rowspan="2">Spark SQL</td>
+			<td>Spark Streaming</td>
+			<td>Spark ML</td>
+			<td>Spark Graph</td>
+		</tr>
+		<tr>
+			<td colspan="3">DataFrame / Dataset APIs</td>
+		</tr>
+		<tr>
+			<td colspan="5"></td>
+		</tr>
+		<tr>
+			<td>SPARK SQL ENGINE</td>
+			<td colspan="2">Catalyst Optimizer</td>
+			<td colspan="2">Tungsten</td>
+		</tr>
+		<tr>
+			<td colspan="5"></td>
+		</tr>
+		<tr>
+			<td rowspan="2">SPARK CORE</td>
+			<td>Scala</td>
+			<td>Python</td>
+			<td>Java</td>
+			<td>R</td>
+		</tr>
+		<tr>
+			<td colspan="4">Resilient Distributed Dataset (RDD)</td>
+		</tr>
+		<tr>
+			<td colspan="5"></td>
+		</tr>
+		<tr>
+			<td colspan="5">Spark standalone, YARN, Apache Mesos, K8s</td>
+		</tr>
+	</tbody>
+</table>
+
 2. **_Databricks_** = Company created by Spark founders
 
 3. **_Microsoft Azure_** = Makes the Databricks service available on its platform as a first party service.
