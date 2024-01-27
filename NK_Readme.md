@@ -22,7 +22,7 @@ Factory pipelines will then go through the new and emerging Data Lakehouse Archi
 | | Jobs  | Incremental Load |   |   |  |
 
 # Section 3: "Azure Databricks" Overview
-1. **_Spark_** :
+## **_1. Spark_** :
    - It is the open source distributed Compute-processing engine for developing big data projects. It is at the core of Azure Databricks.
    - Apache Spark is a lightning fast, unified analytics engine for big data processing and machine learning.
    - It was built to address the shortcomings of Hadoop. Hadoop was slow and inefficient for interactive and iterative computing jobs, and it was too complex to learn and develop.
@@ -74,8 +74,79 @@ Factory pipelines will then go through the new and emerging Data Lakehouse Archi
 		</tr>
 	</tbody>
 </table>
+### SPARK CORE: 
+- It takes care of Scheduling tasks, Memory management, Fault recovery, Communication with storage systems, etc.
+- It's also home to Spark's main programming Abstraction API called RDD or Resilient Distributed Datasets (RDD's).
+- RDDs are a collection of items distributed across various compute nodes, in the cluster that can be processed in parallel.
+- Spark Core provides the APIs to create and manipulate these RDD collections.
 
-2. **_Databricks_** = Company created by Spark founders
+### SPARK SQL ENGINE:
+- In order to optimize the workload, Spark introduced the SQL engine.
+- It includes the Catalyst Optimizer, which takes care of converting a computational query to a highly efficient execution plan
+- The Tungsten Project is responsible for Memory management and CPU efficiency.
 
-3. **_Microsoft Azure_** = Makes the Databricks service available on its platform as a first party service.
-These three offerings together makes Azure Databricks.
+### HIGHER LAYER:
+- The higher level abstraction such as Spark SQL and the Dataset and the DataFrame APIs, make it easier to develop applications and also benefit from the optimizations from the SQL engine.
+- So, the recommended approach to develop applications in Spark, is to use these higher level APIs rather than the RDD API.
+- The Dataset and the DataFrame APIs can be invoked from any of the domain specific languages such as Scala, Python, Java, or R.
+- On top of this, we have the set of libraries such as Spark Structured Streaming for streaming, ML for MachineLearning and also GraphX for graph processing.
+
+### LOWER LAYER:
+- Spark comes with its standalone Resource manager, but you can choose other resource managers such as YARN, Apache Mesos and Kubernetes.
+
+- Combining all of these, Spark provides the unified platform for doing streaming, batch, machine learning and graph processing workloads using a single execution engine and a standard set of APIs.
+
+## **_2. Databricks_** :
+- Now we knows Spark is a fast execution engine with an easy to use set of higher level APIs. But, in order to work with Spark, we have to set up our own clusters, manage security, and also use third party products to write our programs. That's where Databricks comes in.
+- Databricks is a company founded by the creators of Apache Spark to make it easier to work with Spark on the Cloud.
+
+### Clusters
+- In order for Spark to do its distributed computing, we need to spin up Clusters and install the software, which Databricks spin up the Clusters with a few clicks.
+- You can choose the runtime, which is suitable for your needs. For example, you can choose a runtime with ML libraries, support for GPU, etc. 
+- Also, you can choose from a wide range of Clusters ranging from general purpose, memory optimized, compute optimized, or GPU enabled.
+
+### Workspace/Notebook
+- It provides a Jupyter Notebook style IDE with additional capabilities to create your application. 
+- You can collaborate with your other colleagues and also integrate with configuration management tools such as Git.
+
+### Admin Controls:
+- It provides administration controls that you can use to restrict or provide access to your users, to the workspace, Clusters, etc.
+
+### Optimized Spark (5x faster)
+- Databricks provides the Spark runtime, which is highly optimized for the Databricks platform and known to be up to 5x faster than the Vannila Apache Spark.
+
+### Databases/ Tables
+- With the use of high metastore, Databricks also provides the ability to create databases and tables.
+
+### Delta Lake
+- In order to provide ACID transaction capability, Databricks also comes with the Open Source project Delta Lake,
+
+### SQL Analytics
+- It provides the data analyst a SQL based analytics environment.
+- This allows the analyst to explore data, create dashboards, schedule a regular refresh of the dashboard, etc
+
+### ML Flow
+- It allows us to manage the machine learning lifecycle, including experimentation, deployment, model registry, etc.
+
+## **_3. Microsoft Azure_** 
+- Databricks is available on all 3 Cloud platforms - AWS, GCP, Azure. But on Azure the integration is deeper.
+
+It makes the Databricks service available on its platform as a first party service.
+
+Features of Azure Databricks:
+Integration with:
+1. Azure Active Directory
+2. Unified Azure portal + Unified billing
+3. Data services:
+   - Azure Data Lake
+   - Azure Blob Storage
+   - Azure Cosmos DB
+   - Azure SQL DB
+   - Azure Synapse
+5. Messaging service
+   - Azure IoT Hub
+   - Azure Event Hub
+6. Power BI
+7. Azure ML
+8. Azure Data Factory
+9. Azure Dev Ops
