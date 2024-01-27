@@ -23,8 +23,17 @@ Factory pipelines will then go through the new and emerging Data Lakehouse Archi
 
 # Section 3: "Azure Databricks" Overview
 1. **_Spark_** :
-It is the open source distributed Compute-processing engine for developing big data projects. It is at the core of Azure Databricks.
-Apache Spark is a lightning fast, unified analytics engine for big data processing and machine learning.
-3. **_Databricks_** = Company created by Spark founders
-4. **_Microsoft Azure_** = Makes the Databricks service available on its platform as a first party service.
+   - It is the open source distributed Compute-processing engine for developing big data projects. It is at the core of Azure Databricks.
+   - Apache Spark is a lightning fast, unified analytics engine for big data processing and machine learning.
+   - It was built to address the shortcomings of Hadoop. Hadoop was slow and inefficient for interactive and iterative computing jobs, and it was too complex to learn and develop.
+   - Spark offers a much simpler, faster and easier APIs to develop on.
+   - Spark can be 100 X faster than Hadoop, for large scale data processing by exploiting in-memory computing and other optimizations.
+   - Spark runs on a distributed computing platform.
+   - Spark has an unified engine to support varying workloads.
+   - It comes packaged with high level libraries, including support for SQL queries, streaming data, ML and Graph processing.
+   - These standard libraries increase developer productivity and can be seamlessly combined to create complex workflows.
+
+2. **_Databricks_** = Company created by Spark founders
+
+3. **_Microsoft Azure_** = Makes the Databricks service available on its platform as a first party service.
 These three offerings together makes Azure Databricks.
