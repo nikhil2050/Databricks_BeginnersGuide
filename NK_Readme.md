@@ -22,7 +22,7 @@ Factory pipelines will then go through the new and emerging Data Lakehouse Archi
 | | Jobs  | Incremental Load |   |   |  |
 
 # Section 3: "Azure Databricks" Overview
-## **_1. Spark_** :
+## **_3.1 Spark_** :
    - It is the open source distributed Compute-processing engine for developing big data projects. It is at the core of Azure Databricks.
    - Apache Spark is a lightning fast, unified analytics engine for big data processing and machine learning.
    - It was built to address the shortcomings of Hadoop. Hadoop was slow and inefficient for interactive and iterative computing jobs, and it was too complex to learn and develop.
@@ -98,7 +98,7 @@ Factory pipelines will then go through the new and emerging Data Lakehouse Archi
 
 - Combining all of these, Spark provides the unified platform for doing streaming, batch, machine learning and graph processing workloads using a single execution engine and a standard set of APIs.
 
-## **_2. Databricks_** :
+## **_3.2 Databricks_** :
 - Now we knows Spark is a fast execution engine with an easy to use set of higher level APIs. But, in order to work with Spark, we have to set up our own clusters, manage security, and also use third party products to write our programs. That's where Databricks comes in.
 - Databricks is a company founded by the creators of Apache Spark to make it easier to work with Spark on the Cloud.
 
@@ -130,7 +130,7 @@ Factory pipelines will then go through the new and emerging Data Lakehouse Archi
 ### ML Flow
 - It allows us to manage the machine learning lifecycle, including experimentation, deployment, model registry, etc.
 
-## **_3. Microsoft Azure_** 
+## **_3.3 Microsoft Azure_** 
 - Databricks is available on all 3 Cloud platforms - AWS, GCP, Azure. But on Azure the integration is deeper.
 
 It makes the Databricks service available on its platform as a first party service.
@@ -152,3 +152,104 @@ Integration with:
 7. Azure ML
 8. Azure Data Factory
 9. Azure Dev Ops
+
+# Section 4: Databricks Clusters
+
+## 4.1 Cluster Types
+<table>
+	<tbody>
+		<tr>
+			<td>ALL PURPOSE</td>
+			<td>JOB CLUSTER</td>
+		</tr>
+		<tr>
+			<td>Created Manually from GUI or API</td>
+			<td>Created when Job starts to execute and the job has been configured to use a Job Cluster.</td>
+		</tr>
+		<tr>
+			<td>They are persistent and can be terminated and restarted at any point in time.</td>
+			<td>They are terminated at the end of the job. They cannot be restarted. 
+So, they're no longer usable once the job has been completed.</td>
+		</tr>
+		<tr>
+			<td>They are suitable for interactive and ad-hoc Analysis workloads.</td>
+			<td>They are suitable for automated workloads, such as running an ETL pipeline</td>
+		</tr>
+		<tr>
+			<td>They can be shared among many users, and they are good for collaborative analysis.</td>
+			<td>They are isolated just for the job being executed.</td>
+		</tr>
+		<tr>
+			<td>They are expensive to run compared to the Job Clusters.</td>
+			<td>They are cheaper and great for repeated production workloads.</td>
+		</tr>
+		<tr>
+			<td>They are great for interactive analysis and ad-hoc work.</td>
+			<td>They are great for repeated production workloads.</td>
+		</tr>
+	</tbody>
+</table>
+
+## 4.2 All-purpose Cluster Configuration
+### 4.2.1 Single/Multi node:
+Single Node
+- Has only 1 Driver node.
+- Not suitable for large ETL loads
+
+Multinode Node
+- Has 1 Driver node, and 1/more Worker nodes 
+- Driver node will distribute tasks to run on worker nodes in parallel and return the result.
+- They are horizontally scalable.
+
+### 4.2.2 Access Mode:
+1. Single user
+...
+2. Shared
+...
+3. No isolation shared
+...
+4. Custom
+...
+
+### 4.2.3 Runtime:
+Create table for:
+1. Databricks Runtime
+...
+2. Databricks Runtime ML
+...
+3. Photon Runtime
+...
+4. Databricks Runtime Light
+...
+
+### 4.2.4 Auto-termination:
+- Define inactivity time
+- Default value for single-node and std. clusters is 120mins
+- Value between 10 to 10000mins
+
+### 4.2.5 Auto-Scaling:
+- Specify min, max worker nodes
+- Auto-scales between min and max worker nodes
+- Not recommended for streaming workloads
+
+### 4.2.6 Cluster VM Type/ Size:
+1. Memory Optimzied
+2. Compute  Optimzied
+3. Storage  Optimzied
+4. General  Optimzied
+5. GPU  Optimzied
+
+### 4.2.7 Cluster Policy
+- Simplifies UI
+- Enables std users to create clusters
+- Achieves cost control
+- Available on Premium tier only
+
+### 4.2.8 Cluster Pool:
+- It is a set of idle, ready to use VMs, that allow us to reduce the cluster start and Auto-scaling times.
+- You create a pool first and then cretae the "All-purpose Compute". Now the new Compute will be created in less time.
+
+
+
+
+
