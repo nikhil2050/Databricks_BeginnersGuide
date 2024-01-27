@@ -259,4 +259,63 @@ NOTE: First check if the cluster is UP and RUNNING.
 > > > Create a Folder (db-course)
 > > > > Create a Notebook (Name:Notebook Intro, Default Lang:Python, Cluster:db-sourse-cluster) 
 
+## Magic Commands
+
+Write code in Notebook:
+```
+message = 'Hello World'
+print(message)
+```
+```
+%sql
+SELECT "Hello"
+```
+```
+%scala
+val msg = "Hello Scala"
+print(msg)
+```
+```
+%fs
+ls
+```
+```
+%sh
+ps
+```
+
+## Databricks Utilities
+
+...
+
+1. File System Utilities
+...
+2. Secrets Utilities
+...
+3. Widget Utilities
+...
+4. Notebook Workflow Utilities
+...
+
+> Goto Workspace
+> > Users (Select a user)
+> > > Create a Folder (db-course)
+> > > > Create a Notebook (Name:Databricks Utilities, Default Lang:Python, Cluster:db-sourse-cluster) 
+
+```
+dbutils.fs.ls('/databricks-datasets/COVID')   # Returns Python List
+for files in dbutils.fs.ls('/databricks-datasets/COVID')
+    print(files)
+```
+```
+dbutils.help()
+```
+```
+dbutils.fs.help()
+```
+```
+dbutils.fs.help('ls')
+```
+
+
 
