@@ -249,7 +249,14 @@ Create table for:
 - It is a set of idle, ready to use VMs, that allow us to reduce the cluster start and Auto-scaling times.
 - You create a pool first and then cretae the "All-purpose Compute". Now the new Compute will be created in less time.
 
+# Section 5: Databricks Notebooks
+Notebook is a collection of cells that run commands on a Databricks Cluster.
 
+NOTE: First check if the cluster is UP and RUNNING.
 
+> Goto Workspace
+> > Users (Select a user)
+> > > Create a Folder (db-course)
+> > > > Create a Notebook (Name:Notebook Intro, Default Lang:Python, Cluster:db-sourse-cluster) 
 
 
