@@ -262,15 +262,15 @@ NOTE: First check if the cluster is UP and RUNNING.
 ## Magic Commands
 
 Write code in Notebook:
-```
+```python
 message = 'Hello World'
 print(message)
 ```
-```
+```sql
 %sql
 SELECT "Hello"
 ```
-```
+```scala
 %scala
 val msg = "Hello Scala"
 print(msg)
@@ -302,18 +302,18 @@ ps
 > > > Create a Folder (db-course)
 > > > > Create a Notebook (Name:Databricks Utilities, Default Lang:Python, Cluster:db-sourse-cluster) 
 
-```
+```python
 dbutils.fs.ls('/databricks-datasets/COVID')   # Returns Python List
 for files in dbutils.fs.ls('/databricks-datasets/COVID')
     print(files)
 ```
-```
+```python
 dbutils.help()
 ```
-```
+```python
 dbutils.fs.help()
 ```
-```
+```python
 dbutils.fs.help('ls')
 ```
 
@@ -352,15 +352,158 @@ dbutils.fs.help('ls')
 ## 6.3 Access Azure Data Lake from Databricks using AccessKeys:
 Azure Databricks -----> AccessKeys -----> ADLS Gen2
 
+Ref:
+- https://learn.microsoft.com/en-us/azure/databricks/connect/storage/azure-storage#access-azure-data-lake-storage-gen2-or-blob-storage-using-a-sas-token
+
 Using:
-```
+```python
 spark.conf.set(
 	"fs.azure.account.key.<storage-account>.dfs.core.windows.net",
 	"<access-key>")
-spark.conf.set(
+Ex. spark.conf.set(
 	"fs.azure.account.key.formula1dl.dfs.core.windows.net",
 	"30asDF+hkkghjghjfjhfhfgghjghjgjhghjgjgjghj+h+hjghjgjh+uhuh+hgguguigu+bhbjhv7==")
 ```
+
+Azure Databricks -----> abfs (Azure Blob FS) driver -----> ADLS Gen2
+
+ABFS:
+- Optimized for Bigdata Analytics
+- Offers better security
+
+Reference: https://learn.microsoft.com/en-us/azure/storage/blobs/data-lake-storage-abfs-driver
+
+URI Scheme:
+```python
+dbutils.fs.ls("abfs[s]://container/@storage_account_name.dfs.core.windows.net/folderpath/filename")
+Ex.
+dbutils.fs.ls("abfss://demo@formula1dl.dfs.core.windows.net/test/circuits.csv")
+```
+
+Practical:
+> Goto Workspace
+> > Workspace (Select Formula1)
+> > > Create a Folder (set-up)
+> > > > Create a Notebook (Name:1.access_adls_using_access_keys, Default Lang:Python, Cluster:db-sourse-cluster) 
+
+You will get 2 keys - key1 and key2 from ADLS. Copy key1.
+
+```python
+# Step 1: Set the spark config fs.azure.account.key
+spark.conf.set(
+    "fs.azure.account.key.formula1dl.dfs.core.windows.net",
+    "30asDF+hkkghjghjfjhfhfgghjghjgjhghjgjgjghj+h+hjghjgjh+uhuh+hgguguigu+bhbjhv7==")
+
+# Step 2: List files from demo container
+display(dbutils.fs.ls("abfss://demo@formula1dl.dfs.core.windows.net"))			# Displays the content of "demo" container
+
+# Step 3: Read data from circuits.csv file
+display(spark.read.csv("abfss://demo@formula1dl.dfs.core.windows.net/circuits.csv"))	# Displays data in Dataframe
+```
+
+## 6.4 Access Azure Data Lake from Databricks using SharedAccessSignature(SAS Token):
+Azure Databricks -----> SharedAccessSignature(SAS) -----> ADLS Gen2
+
+...
+
+Ref:
+- https://learn.microsoft.com/en-us/azure/databricks/connect/storage/azure-storage#access-azure-data-lake-storage-gen2-or-blob-storage-using-a-sas-token
+- https://learn.microsoft.com/en-us/azure/storage/common/storage-sas-overview
+
+```python
+spark.conf.set(
+	"fs.azure.account.auth.type.<storage-account>.dfs.core.windows.net",
+	"SAS")
+spark.conf.set(
+	"fs.azure.sas.token.provider.type.<stoarge-account>.dfs.core.windows.net",
+	"org.apache.hadoop.fs.azurebfs.sas.FixedSASTokenProvider")
+spark.conf.set("fs.azure.sas.fixed.token.<storage-account>.dfs.core.windows.net", "<token>")
+```
+
+Here,\
+	storage-account = formula1dl
+
+
+Practical:
+> Goto Workspace
+> > Workspace (Select Formula1)
+> > > Create a Notebook (Name:**_2.access_adls_using_sas_token_**, Default Lang:Python, Cluster:db-sourse-cluster) 
+```python
+
+# Step 1: Set the spark config for SAS Token
+spark.conf.set(
+	"fs.azure.account.auth.type.formula1dl.dfs.core.windows.net",
+	"SAS")
+spark.conf.set(
+	"fs.azure.sas.token.provider.type.formula1dl.dfs.core.windows.net",
+	"org.apache.hadoop.fs.azurebfs.sas.FixedSASTokenProvider")
+spark.conf.set(
+	"fs.azure.sas.fixed.token.formula1dl.dfs.core.windows.net",
+	"sp=r&rscd=file;%20attachment&rsct=binary &sig=YWJjZGVmZw%3d%3d&sig=a39%2BYozJhGp6miujGymjRpN8tsrQfLo9Z3i8IRyIpnQ%3d")
+
+# Step 2: List files from demo container
+display(dbutils.fs.ls("abfss://demo@formula1dl.dfs.core.windows.net"))
+
+# Step 3: Read data from circuits.csv file
+display(spark.read.csv("abfss://demo@formula1dl.dfs.core.windows.net/circuits.csv"))
+```
+
+## 6.5 Access Azure Data Lake from Databricks using ServicePrincipal:
+
+...
+
+Ref:
+- https://learn.microsoft.com/en-us/azure/databricks/connect/storage/azure-storage#access-azure-data-lake-storage-gen2-or-blob-storage-using-a-sas-token
+
+```python
+# Step #1: Register Azure AD Application / Service Principal:
+client_id = "<Application (client) ID from ADLSGen2>"
+tenant_id = "<Directory (Tenant) ID from ADLSGen2>"
+
+# Step #2: Generate a secret/ password for the Application:
+client_secret = "<Client secret Value>"
+
+# Step #3: Set Spark Config with App/ Client Id, Directory/ Tenant Id & Secret
+spark.conf.set("fs.azure.account.auth.type.<storage-account>.dfs.core.windows.net", 	   	  "OAuth")
+spark.conf.set("fs.azure.account.oauth.provider.type.<storage-account>.dfs.core.windows.net", 	  "org.apache.hadoop.fs.azurebfs.oauth2.ClientCredsTokenProvider")
+spark.conf.set("fs.azure.account.oauth2.client.id.<storage-account>.dfs.core.windows.net", 	  <application-id>)	# application-id = client_id
+spark.conf.set("fs.azure.account.oauth2.client.secret.<storage-account>.dfs.core.windows.net",	  <service_credential>)	# service_credential = client_secret
+spark.conf.set("fs.azure.account.oauth2.client.endpoint.<storage-account>.dfs.core.windows.net",  f"https://login.microsoftonline.com/{directory-id}/oauth2/token")	# directory-id=tenant_id
+```
+
+Practical:
+> Goto Workspace
+> > Workspace (Select Formula1)
+> > > Create a Notebook (Name:**_3.access_adls_using_service_principal_**, Default Lang:Python, Cluster:db-sourse-cluster) 
+```python
+
+# Step #1: Register Azure AD Application / Service Principal:
+client_id = "550e8400-e29b-41d4-a716-446655440000"
+tenant_id = "579a3168-d53b-64a2-b783-123456789012"
+
+# Step #2: Generate a secret/ password for the Application:
+client_secret = "KwF8q~dL~fiyYr75h.FYUBImHUgHIyf67dJIvb7"
+
+# Step #3: Set Spark Config with App/ Client Id, Directory/ Tenant Id & Secret
+spark.conf.set("fs.azure.account.auth.type.formula1dl.dfs.core.windows.net", 		   "OAuth")
+spark.conf.set("fs.azure.account.oauth.provider.type.formula1dl.dfs.core.windows.net", 	   "org.apache.hadoop.fs.azurebfs.oauth2.ClientCredsTokenProvider")
+spark.conf.set("fs.azure.account.oauth2.client.id.formula1dl.dfs.core.windows.net", 	   client_id)
+spark.conf.set("fs.azure.account.oauth2.client.secret.formula1dl.dfs.core.windows.net",	   client_secret)
+spark.conf.set("fs.azure.account.oauth2.client.endpoint.formula1dl.dfs.core.windows.net",  f"https://login.microsoftonline.com/{tenant_id}/oauth2/token")
+
+# Step #4: Assign Role 'Storage Blob Data Contributor' to the Data Lake
+# To be done in ADLSGen2 IAM
+
+# Step 5: List files from demo container
+display(dbutils.fs.ls("abfss://demo@formula1dl.dfs.core.windows.net"))
+
+# Step 6: Read data from circuits.csv file
+display(spark.read.csv("abfss://demo@formula1dl.dfs.core.windows.net/circuits.csv"))
+```
+
+
+
+
 
 
 
