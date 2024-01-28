@@ -321,8 +321,8 @@ dbutils.fs.help('ls')
 
 ## 6.1 Access Type:
 
-### 6.1.1 Storage Access Keys
-- Each Azure storage account comes with an Access Key, that we can use to access the storage account.
+### 6.1.1 Storage AccessKeys
+- Each Azure storage account comes with an AccessKey, that we can use to access the storage account.
 
 ### 6.1.2 Shared Access Signature (SAS Token)
 - We can generate a special kind of key called "Shared Access Signature" (SAS Token), and we can use that to access the storage account.
@@ -348,6 +348,25 @@ dbutils.fs.help('ls')
 
 ### 6.2.4 Unity Catalog [PREMIUM]:
 ...
+
+## 6.3 Access Azure Data Lake from Databricks using AccessKeys:
+Azure Databricks -----> AccessKeys -----> ADLS Gen2
+
+Using:
+```
+spark.conf.set(
+	"fs.azure.account.key.<storage-account>.dfs.core.windows.net",
+	"<access-key>")
+spark.conf.set(
+	"fs.azure.account.key.formula1dl.dfs.core.windows.net",
+	"30asDF+hkkghjghjfjhfhfgghjghjgjhghjgjgjghj+h+hjghjgjh+uhuh+hgguguigu+bhbjhv7==")
+```
+
+
+
+
+
+
 
 
 
