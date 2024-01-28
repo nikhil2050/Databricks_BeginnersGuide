@@ -501,10 +501,64 @@ display(dbutils.fs.ls("abfss://demo@formula1dl.dfs.core.windows.net"))
 display(spark.read.csv("abfss://demo@formula1dl.dfs.core.windows.net/circuits.csv"))
 ```
 
+## 6.6 Cluster-scoped Authentication:
+
+## 6.7 Access Azure Data Lake from Databricks using CredentialPassthrough:
 
 
+# Section 7: Securing Access to Azure Data Lake from Databricks
 
+## 7.1 Securing Secrets Overview
 
+- It helps store the credentials securely and reference them in Notebooks, Clusters and Jobs when required.
+
+2 types:
+1. Azure Key-Vault backed Secret Scope
+2. Databricks backed Secret Scope
+
+| Steps | Details |
+|---|---|
+| **1. Azure Key-Vault** | - Add secrets to the key-vault |
+| **2. Databricks Secret Scope** | - Create it |
+| **3. Notebooks/Clusters/Jobs** | - Get secrets using dbutils.secrets.get |
+
+ ## 7.2 Implementation
+
+## Step 1: Creating Azure Key-Vault:
+Create KeyVault from Azure.
+
+...
+
+## Step 2: Creating SecretScope:
+In Azure Vault, create a Secret - 
+Name: formula1dl-msg1\
+Secret Value: Hello Secret Value\
+Content Type: Says Hello\
+
+In Databricks, SecretScope creation window is hidden. Append /secrets/createScope in Url:\
+https://adb-1234567890123456.12.azuredatabricks.net/?o=1234567890123456#secrets/createScope \
+
+CREATE SCOPE: \
+Set Scope Name: formula1-scope \
+Manage Principal: All Users \
+Azure Key Vault - DNS Name: 	https://formula1-key-vault.vault.azure.net/		# From Azure Key Vault > Properties > Vault URI \
+Azure Key Vault - Resource ID:	/subscriptions/fccba757-1345-675f-79g6-578bcad587bc/resourceGroups/databrickscourse-rg/providers/Microsoft.KeyVault/vaults/formula1-key-vault	# From Azure Key Vault > Properties > Resource ID \
+Click CREATE btn
+
+## Step 3: Databricks Secrets Utility (dbutils.secrets):
+```python
+dbutils.secrets.help()
+dbutils.secrets.listScopes()						# Lists all secret scopes
+dbutils.secrets.list(scope = 'formula1-scope')				# Lists secret metadata for secrets within a scope
+dbutils.secrets.get(scope = 'formula1-scope', key = 'formula1dl-msg1')	# Gets the sctring representation of a secret value with scope and key
+```
+
+ ## 7.3 Implementing Secrets Utility in Databricks Clusters
+
+> Edit Cluster
+> > Advanced Options
+> > > Spark Config: Append "fs.azure.account.key.formula1dldfs.core.windows.net {{secrets/formula1-scope/formula1dl-msg1}}"
+> > > > "Confirm and Restart" btn
 
 
 
