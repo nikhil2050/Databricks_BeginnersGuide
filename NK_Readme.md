@@ -317,5 +317,41 @@ dbutils.fs.help()
 dbutils.fs.help('ls')
 ```
 
+# Section 6: Accessing Azure Data Lake from Databricks
+
+## 6.1 Access Type:
+
+### 6.1.1 Storage Access Keys
+- Each Azure storage account comes with an Access Key, that we can use to access the storage account.
+
+### 6.1.2 Shared Access Signature (SAS Token)
+- We can generate a special kind of key called "Shared Access Signature" (SAS Token), and we can use that to access the storage account.
+- It lets us manage access at a more granular level than the Access Key.
+
+### 6.1.3 Service Principal
+- We can also create a Service Principal and give the required access for the Data Lake and use those credentials to access the storage account.
+
+## 6.2 Authentication Scope:
+
+### 6.2.1 Session-scoped Authentication (Attached to Notebook):
+- The authentication in this scenario will be valid just for the duration of the session, i.e. until the notebook has been detached to the cluster.
+
+### 6.2.2 Cluster-scoped Authentication (Attached to Cluster):
+- The authentication will happen when the Cluster starts and it will be valid until the Cluster has been terminated.
+- All the notebooks connected to this Cluster will have access to the data.
+
+### 6.2.3 Azure Active Directory(AAD) Passthrough Authentication [PREMIUM]:
+- In this pattern we just need to enable the Cluster to use, Azure Active Directory Pass-through authentication.
+- Whenever a user runs a Notebook, the Cluster will use the user's Azure Active Directory credentials and look for the roles, the user has been assigned to the Azure Data Lake Storage using IAM or Identity and Access management.
+- If the user has access to the storage account, it will allow the user to access the storage account. Else, the user won't be able to access the storage.
+- AAD Pass-through authentication is only available on premium workspaces.
+
+### 6.2.4 Unity Catalog [PREMIUM]:
+...
+
+
+
+
+
 
 
